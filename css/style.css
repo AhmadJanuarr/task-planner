@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+
+::root {
+  --font-size: 16px;
+}
+
+*,
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Noto Sans", sans-serif;
+}
+
+body {
+  background-image: linear-gradient(
+    140deg,
+    hsl(240deg 52% 85%) 0%,
+    hsl(260deg 63% 78%) 41%,
+    hsl(270deg 70% 71%) 100%
+  );
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.inner-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  height: 600px;
+  border-radius: 10px;
+  padding: 20px 10px;
+  background-color: aliceblue;
+}
+
+.inner-container .heading {
+  text-transform: uppercase;
+  padding: 10px;
+  font-weight: 500px;
+  font-size: 30px;
+}
+
+.header-container {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.header-container .search-container input {
+  padding: 5px 10px;
+  border-radius: 5px;
+  width: 400px;
+}
+
+.header-container .filter-container select {
+  font-size: var(--font-size);
+  text-transform: capitalize;
+  padding: 3px 10px;
+  border-radius: 5px;
+}
+
+.add-btn {
+  position: absolute;
+  right: 30px;
+  bottom: 20px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+/* MODAL STYLE */
+.modal {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-container {
+  width: 500px;
+  height: 300px;
+  background-color: aliceblue;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  padding: 30px 20px;
+}
+
+.modal-heading {
+  text-transform: uppercase;
+  font-size: 20px;
+  text-align: center;
+}
+
+.modal-input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-top: 10px;
+}
+
+.modal-input-container .input-container {
+  display: flex;
+  width: 100%;
+  gap: 5px;
+}
+
+.modal-input-container .input-container label {
+  width: 100px;
+  text-transform: capitalize;
+}
+
+.modal-input-container .input-container input {
+  flex: 1;
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.modal-input-container .input-btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.modal-btn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+
+  font-size: var(--font-size);
+}
+/* END MODAL STYLE */
+
+/* TASK LIST */
+.task-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  width: 100%;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid gray;
+}
+
+.action {
+  gap: 10px;
+  display: flex;
+}
+/* END TASK LIST */
