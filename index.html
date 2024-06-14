@@ -16,7 +16,11 @@
         <h1 class="heading">my task</h1>
         <div class="header-container">
           <div class="search-container">
-            <input type="text" class="search-input" placeholder="search todo" />
+            <input
+              type="text"
+              class="search-input"
+              placeholder="Search Your Task ..."
+            />
           </div>
           <div class="filter-container">
             <select class="filter-select">
@@ -25,12 +29,11 @@
               <option value="completed">completed</option>
             </select>
           </div>
-          <!-- <div class="dark-mode">
-            <label class="switch">
-              <input type="checkbox" class="switch-input" />
-              <span class="slider round"></span>
-            </label>
-          </div> -->
+          <div class="dark-mode">
+            <button class="dark-btn">
+              <i class="bx bx-sun bx-sm bx-spin-hover"></i>
+            </button>
+          </div>
         </div>
 
         <div class="task-container" id="task-container"></div>
@@ -39,7 +42,8 @@
           <i class="bx bxs-plus-circle bx-md"></i>
         </button>
       </section>
-      <!-- MODAL START -->
+
+      <!-- ADD MODAL START -->
       <div class="modal" id="modal">
         <div class="modal-container">
           <h2 class="modal-heading">Add Task</h2>
@@ -58,7 +62,12 @@
             </div>
 
             <div class="input-btn">
-              <input class="modal-btn" id="add-btn" type="submit" value="Add" />
+              <input
+                class="modal-btn"
+                id="submit-btn"
+                type="submit"
+                value="submit"
+              />
               <input
                 class="modal-btn"
                 id="close-btn"
@@ -69,8 +78,46 @@
           </form>
         </div>
       </div>
-      <!-- MODAL END -->
+      <!-- ADD MODAL END -->
+
+      <!-- EDIT MODAL START -->
+      <!-- <div class="modal-edit" id="modal-edit">
+        <div class="modal-container">
+          <h2>Edit Task</h2>
+          <form>
+            <div class="input-container">
+              <label for="title">Title</label>
+              <input type="text" id="title" />
+            </div>
+            <div class="input-container">
+              <label for="description">Description</label>
+              <input type="text" id="description" />
+            </div>
+            <div class="input-container">
+              <label for="date">Date</label>
+              <input type="date" id="date" />
+            </div>
+            <div class="input-btn">
+              <input
+                class="modal-btn"
+                id="edit-btn"
+                type="submit"
+                value="Edit"
+              />
+              <input
+                class="modal-btn"
+                id="close-btn"
+                type="button"
+                value="Close"
+              />
+            </div>
+          </form>
+        </div>
+      </div> -->
+      <!-- EDIT MODAL END -->
     </main>
     <script src="./js/script.js"></script>
   </body>
 </html>
+
+<image></image>
