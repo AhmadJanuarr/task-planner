@@ -22,7 +22,13 @@ closeModalBtn.addEventListener("click", () => {
 });
 
 // Membuat objek tugas
-function createTaskObject(id, title, description, date, statusSelected = null) {
+function createTaskObject(
+  id,
+  title,
+  description,
+  date,
+  statusSelected = "Not started"
+) {
   return { id, title, description, date, statusSelected };
 }
 
@@ -68,15 +74,28 @@ function renderTasks() {
     const taskRow = document.createElement("tr");
     taskRow.classList.add("item");
     taskRow.id = task.id;
+    const statusSelected = task.statusSelected;
     taskRow.innerHTML = `
       <td class="task">
         <i class='bx bxs-right-arrow' style='color:#0a0a0a'></i>
         <span class="title">${task.title}</span>
       </td>
-      <td class="status">
-        <span id="status" >${task.statusSelected}</span>
+      <td class="status-select">
+        <span id="status" class="status status-${statusSelected.replace(
+          /\s+/g,
+          ""
+        )}" >${task.statusSelected}</span>
       </td>
     `;
+
+    if (task.statusSelected === "Done") {
+      taskRow.querySelector(".task").classList.add("textStrikethrough");
+    }
+
+    const infoTask = taskRow.querySelector(".task");
+    infoTask.addEventListener("click", (event) => {
+      const modal = document.querySelector(".modal-info");
+    });
 
     const statusSelect = taskRow.querySelector(".status");
     statusSelect.addEventListener("click", (event) => {
@@ -115,23 +134,8 @@ function statusSelected() {
 
       const statusElement = document
         .getElementById(task.id)
-        .querySelector("#status");
+        .querySelector(".status");
       statusElement.innerText = task.statusSelected;
-
-      // Remove previous status classes
-      statusElement.classList.remove(
-        "status-done",
-        "status-inprogress",
-        "status-notstarted"
-      );
-
-      if (task.statusSelected == "Done") {
-        statusElement.classList.add("status-done");
-      } else if (task.statusSelected == "In progress") {
-        statusElement.classList.add("status-inprogress");
-      } else if (task.statusSelected == "Not started") {
-        statusElement.classList.add("status-notstarted");
-      }
 
       saveDataToLocalStorage();
       document.querySelector(".modal-status").style.display = "none";
