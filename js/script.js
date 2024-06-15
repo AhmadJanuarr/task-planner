@@ -22,8 +22,8 @@ closeModalBtn.addEventListener("click", () => {
 });
 
 // Membuat objek tugas
-function createTaskObject(id, title, description, date) {
-  return { id, title, description, date };
+function createTaskObject(id, title, description, date, statusSelected = null) {
+  return { id, title, description, date, statusSelected };
 }
 
 // Menghasilkan ID unik
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
     formValidation();
   });
   loadDataFromLocalStorage();
+  statusSelected();
 });
 
 // Validasi formulir dan tambahkan tugas ke dalam array
@@ -64,35 +65,79 @@ function renderTasks() {
   taskContainer.innerHTML = "";
 
   tasks.forEach((task) => {
-    const taskElement = document.createElement("div");
-    taskElement.classList.add("item");
-    taskElement.id = task.id;
-    taskElement.innerHTML = `
-      <div class="task">
-        <h2 class="title">${task.title}</h2>
-        <p class="desc">${task.description}</p>
-        <p class="date">Date: ${task.date}</p>
-      </div>
-      <div class="action">
-        <i class="bx bx-edit bx-md edit"></i>
-        <i class="bx bx-trash bx-md delete"></i>
-      </div>
+    const taskRow = document.createElement("tr");
+    taskRow.classList.add("item");
+    taskRow.id = task.id;
+    taskRow.innerHTML = `
+      <td class="task">
+        <i class='bx bxs-right-arrow' style='color:#0a0a0a'></i>
+        <span class="title">${task.title}</span>
+      </td>
+      <td class="status">
+        <span id="status" >${task.statusSelected}</span>
+      </td>
     `;
-    // Menambahkan event listener untuk tombol edit
-    const editBtn = taskElement.querySelector(".edit");
-    editBtn.addEventListener("click", () => editTask(task.id));
 
-    // Menambahkan event listener untuk tombol hapus
-    const deleteBtn = taskElement.querySelector(".delete");
-    deleteBtn.addEventListener("click", () => deleteTask(task.id));
+    const statusSelect = taskRow.querySelector(".status");
+    statusSelect.addEventListener("click", (event) => {
+      const modal = document.querySelector(".modal-status");
 
-    taskContainer.appendChild(taskElement);
+      if (modal) {
+        modal.id = `modal-${task.id}`;
+        modal.style.display = "flex";
+
+        // Ambil posisi tombol yang diklik
+        const rect = event.target.getBoundingClientRect();
+        modal.style.position = "absolute";
+        modal.style.top = `${rect.bottom + window.scrollY}px`; // Posisi di bawah tombol
+        modal.style.left = `${rect.left + window.scrollX}px`;
+
+        // Tambahkan modal ke dalam dokumen
+        document.body.appendChild(modal);
+      }
+    });
+
+    taskContainer.appendChild(taskRow);
   });
 }
 
 document.addEventListener(RENDER_EVENT, () => {
   renderTasks();
 });
+
+function statusSelected() {
+  const statusList = document.querySelectorAll("ul.status-list li");
+  statusList.forEach((status) => {
+    status.addEventListener("click", (e) => {
+      const taskId = e.target.closest(".modal-status").id.split("-")[1];
+      const task = tasks.find((task) => task.id === parseInt(taskId));
+      task.statusSelected = e.target.textContent.trim();
+
+      const statusElement = document
+        .getElementById(task.id)
+        .querySelector("#status");
+      statusElement.innerText = task.statusSelected;
+
+      // Remove previous status classes
+      statusElement.classList.remove(
+        "status-done",
+        "status-inprogress",
+        "status-notstarted"
+      );
+
+      if (task.statusSelected == "Done") {
+        statusElement.classList.add("status-done");
+      } else if (task.statusSelected == "In progress") {
+        statusElement.classList.add("status-inprogress");
+      } else if (task.statusSelected == "Not started") {
+        statusElement.classList.add("status-notstarted");
+      }
+
+      saveDataToLocalStorage();
+      document.querySelector(".modal-status").style.display = "none";
+    });
+  });
+}
 
 // Mencari tugas berdasarkan ID
 function findTaskById(taskID) {
@@ -114,15 +159,6 @@ function deleteTask(taskID) {
   tasks.splice(taskIndex, 1);
   saveDataToLocalStorage();
   document.dispatchEvent(new Event(RENDER_EVENT));
-}
-
-// Menampilkan modal untuk mengedit tugas
-function showModalEditTask(task) {
-  // Implementasi logika untuk menampilkan modal dan mengisi form dengan data task yang akan diedit
-  document.getElementById("title").value = task.title;
-  document.getElementById("description").value = task.description;
-  document.getElementById("date").value = task.date;
-  modal.style.display = "flex";
 }
 
 // LOCAL STORAGE
